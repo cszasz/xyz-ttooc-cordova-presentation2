@@ -19,7 +19,9 @@
 package de.fhg.fokus.famium.presentation;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Presentation;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Display;
@@ -32,7 +34,7 @@ import android.webkit.WebViewClient;
  * This class is responsible to display the WebView of the presenting page on the connected Presentation Display.
  */
 public class SecondScreenPresentation extends Presentation {
-    private static String DEFAULT_DISPLAY_URL = "about:blank";
+    private static String DEFAULT_DISPLAY_URL = "https://console.eatwithme.online/img/EwM-customer-logo.svg";
     private WebView webView;
     private PresentationSession session;
     private Activity outerContext;
@@ -77,6 +79,7 @@ public class SecondScreenPresentation extends Presentation {
      */
     public WebView getWebView() {
         if (webView == null) {
+
             webView = new WebView(this.getContext());
             webView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
             webView.getSettings().setJavaScriptEnabled(true);
@@ -84,6 +87,7 @@ public class SecondScreenPresentation extends Presentation {
             webView.getSettings().setAllowFileAccess(true);
             webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
             webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
+            webView.getSettings().setAllowFileAccessFromFileURLs(true);
             webView.getSettings().setDomStorageEnabled(true);
             webView.getSettings().setDatabaseEnabled(true);
             webView.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.36");
@@ -99,7 +103,8 @@ public class SecondScreenPresentation extends Presentation {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     view.loadUrl(NavigatorPresentationJS.RECEIVER);
-                    view.loadUrl("javascript:document.dispatchEvent(new Event('deviceready'));");
+                    view.loadUrl("javascript:document.dispatchEvent(new Event('deviceready2'));");
+                    view.loadUrl(NavigatorPresentationJS.RECEIVER);
                     super.onPageFinished(view, url);
                 }
             });
@@ -158,6 +163,29 @@ public class SecondScreenPresentation extends Presentation {
         }
     }
 
+    private void showAlertMessage(String message) {
+        try {
+            // Create an AlertDialog.Builder instance
+            AlertDialog.Builder builder = new AlertDialog.Builder(getSession().getActivity());
+
+            // Set the title and message for the dialog
+            builder.setTitle("Alert")
+                    .setMessage(message)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // If the user clicks "OK", you can add additional actions here
+                            dialog.dismiss(); // Dismiss the dialog
+                        }
+                    });
+
+            // Create and show the AlertDialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } catch (Exception ex) {
+
+        }
+    }
+
     /**
      * @return the parent {@link Activity} associated with this presentation
      */
@@ -178,8 +206,13 @@ public class SecondScreenPresentation extends Presentation {
 //                    if (presentationSession != null) {
                     WebView webView = getWebView();
                     if (webView != null) {
-                        getWebView().loadUrl(url);
+                        try {
+                            getWebView().loadUrl(url);
+                        } catch (Exception ex) {
+                            showAlertMessage("Exception:"+ex);
+                        }
                     } else {
+                        //showAlertMessage("SecondScreenPresentation getWebView is null =========loadUrl()============");
                         System.out.println("SecondScreenPresentation getWebView is null =========loadUrl()============");
                     }
 //                    }

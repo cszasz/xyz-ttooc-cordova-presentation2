@@ -21,6 +21,7 @@ package de.fhg.fokus.famium.presentation;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.hardware.display.DisplayManager;
 import android.view.Display;
 
@@ -37,9 +38,6 @@ import org.json.JSONObject;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import xyz.ttooc.cordova.logtofile.LogUtil;
-
 
 /**
  * Entry Class for Presentation API Cordova Plugin. This Plugin implements the W3C Presentation API as described in the final report  {@link http://www.w3.org/2014/secondscreen/presentation-api/20140721/} of the Second Screen Presentation API Community Group.
@@ -84,9 +82,6 @@ public class CDVPresentationPlugin extends CordovaPlugin implements DisplayManag
 			LOG.d(LOG_TAG, "clearWatchAvailableChange");
 			return clearWatchAvailableChange(args, callbackContext);
 		} else if (action.equals("requestSession")) {
-			if (1<2)
-				throw new JSONException("exxx");
-
 			LOG.d(LOG_TAG, "requestSession");
 			return requestSession(args, callbackContext);
 		} else if (action.equals("presentationSessionPostMessage")) {
@@ -289,6 +284,25 @@ public class CDVPresentationPlugin extends CordovaPlugin implements DisplayManag
 		return presentations;
 	}
 
+
+	private void showAlertMessage(String message) {
+		// Create an AlertDialog.Builder instance
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+		// Set the title and message for the dialog
+		builder.setTitle("Alert")
+				.setMessage(message)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// If the user clicks "OK", you can add additional actions here
+						dialog.dismiss(); // Dismiss the dialog
+					}
+				});
+
+		// Create and show the AlertDialog
+		AlertDialog dialog = builder.create();
+		dialog.show();
+	}
 	private void showDisplaySelectionDialog(final PresentationSession session) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		Collection<SecondScreenPresentation> collection = getPresentations().values();
@@ -300,8 +314,8 @@ public class CDVPresentationPlugin extends CordovaPlugin implements DisplayManag
 			presentations[counter] = presentation;
 			items[counter++] = presentation.getDisplay().getName();
 		}
-
-	/*	builder.setTitle("Select Presentation Display").setItems(items,
+		/*
+		builder.setTitle("Select Presentation Display").setItems(items,
 				new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						SecondScreenPresentation presentation = presentations[which];
@@ -319,24 +333,17 @@ public class CDVPresentationPlugin extends CordovaPlugin implements DisplayManag
 						session.setState(PresentationSession.DISCONNECTED);
 					}
 				});
-		AlertDialog dialog = builder.create();*/
-//		dialog.show();
-
-		LogUtil logUtil = new LogUtil();
-
-		logUtil.info("客显设备===", preferences.toString());
-		logUtil.info("客显设备===", "sessionId" + session.getId());
-		android.util.Log.e("客显设备", "sessionId=" + session.getId());
+		AlertDialog dialog = builder.create();
+		dialog.show();
+		*/
 		try {
 			if (presentations.length > 0) {
 				SecondScreenPresentation presentation = presentations[0];
 				session.setPresentation(presentation);
 				getSessions().put(session.getId(), session);
 			} else {
-				LOG.e("客显异常", "没有找到客显屏");
 			}
 		} catch (Exception e) {
-			LOG.e("客显异常", e.getMessage());
 		}
 	}
 

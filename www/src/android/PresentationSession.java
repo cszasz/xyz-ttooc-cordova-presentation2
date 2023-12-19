@@ -24,6 +24,8 @@ import java.security.SecureRandom;
 import org.apache.cordova.CallbackContext;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.webkit.WebView;
 
 /**
@@ -137,6 +139,25 @@ public class PresentationSession {
         return presentation;
     }
 
+    private void showAlertMessage(String message) {
+        // Create an AlertDialog.Builder instance
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+        // Set the title and message for the dialog
+        builder.setTitle("Alert")
+                .setMessage(message)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // If the user clicks "OK", you can add additional actions here
+                        dialog.dismiss(); // Dismiss the dialog
+                    }
+                });
+
+        // Create and show the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
     /**
      * @param presentation the {@link SecondScreenPresentation} associated with this session. State will change to <code>disconnected</code> if value of presentation is <code>null</code>
      */
@@ -162,15 +183,15 @@ public class PresentationSession {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         SecondScreenPresentation presentationSession = getPresentation();
 //						WebView webView = presentationSession.getWebView();
                         if (presentationSession != null) {
                             if (presentationSession.getWebView() != null) {
 
-
                                 try {
-                                    getPresentation().getWebView().loadUrl("javascript:NavigatorPresentationJavascriptInterface.onmessage('" + getId() + "','" + msg + "')");
+                                    //showAlertMessage("javascript:document.dispatchEvent(new CustomEvent('message', {detail: {data:"+msg+"}}));");
+                                    getPresentation().getWebView().loadUrl("javascript:document.dispatchEvent(new CustomEvent('message', {detail: {data:"+msg+"}}));");
+                                    //getPresentation().getWebView().loadUrl("javascript:NavigatorPresentationJavascriptInterface.onmessage('" + getId() + "','" + msg + "')");
 
 
                                 } catch (NullPointerException e) {
