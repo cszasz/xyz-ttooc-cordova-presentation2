@@ -1,0 +1,44 @@
+{
+  "_from": "xyz-ttooc-cordova-presentation2@1.0.7",
+  "_id": "xyz-ttooc-cordova-presentation2@1.0.7",
+  "_inBundle": false,
+  "_integrity": "sha512-2haHj1NtfpJu42812ulx3+WY6mMzejpvwGs7SqK3DXd3L6WqimJPbtlmugseELq1ThLTgUjcqkLO9MJaI+hJBw==",
+  "_location": "/xyz-ttooc-cordova-presentation2",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "xyz-ttooc-cordova-presentation2@1.0.7",
+    "name": "xyz-ttooc-cordova-presentation2",
+    "escapedName": "xyz-ttooc-cordova-presentation2",
+    "rawSpec": "1.0.7",
+    "saveSpec": null,
+    "fetchSpec": "1.0.7"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://repo.ttooc.xyz/repository/npm-private/xyz-ttooc-cordova-presentation2/-/xyz-ttooc-cordova-presentation2-1.0.7.tgz",
+  "_shasum": "c4eefd2f3970e7e815c6d44ec9b95725bd416fa4",
+  "_spec": "xyz-ttooc-cordova-presentation2@1.0.7",
+  "_where": "C:\\development\\ELO\\MVP006\\app_elo",
+  "author": "",
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Project website: [Cordova Presentation API Plugin](http://fraunhoferfokus.github.io/cordova-plugin-presentation/ )",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "license": "ISC",
+  "main": "index.js",
+  "name": "xyz-ttooc-cordova-presentation2",
+  "publishConfig": {
+    "registry" : "https://registry.npmjs.org "
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.7"
+}
