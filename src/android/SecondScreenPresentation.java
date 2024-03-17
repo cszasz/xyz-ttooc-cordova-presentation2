@@ -48,7 +48,7 @@ public class SecondScreenPresentation extends Presentation {
     public SecondScreenPresentation(Activity outerContext, Display display, String displayUrl) {
         super(outerContext, display);
         this.outerContext = outerContext;
-        this.displayUrl = displayUrl == null ? DEFAULT_DISPLAY_URL : displayUrl + "#" + display.getName();
+        this.displayUrl = displayUrl == null ? DEFAULT_DISPLAY_URL : displayUrl;
     }
 
     /**
